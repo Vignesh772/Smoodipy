@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, Response
-
+import random
 import cv2
 from camera import VideoCamera
 
@@ -112,12 +112,17 @@ def cam_on():
 @app.route('/playlist')
 def moodtape():
     global final_mood
+
     if(final_mood=='Happy'):
         mood = 1.0
+        mood=(round(random.uniform(0.8, 0.1), 2))
+
     elif(final_mood=='Sad'):
         mood=0.1
+        mood = (round(random.uniform(0.1, 0.3), 2))
     elif(final_mood=='Neutral'):
         mood=0.5
+        mood = (round(random.uniform(0.4, 0.7), 2))
 
 	# username = request.form['username']
     mood = float(mood)
@@ -130,7 +135,7 @@ def moodtape():
 	#x = requests.get(all_playlists,params {Authorization: 49c660ae3c0242deb395127c50aa4971})
 	#print(x.response)
 	#resp_dict = json.load(x)
-    playlist = create_playlist(spotify_auth, selected_tracks, mood)
+    playlist = create_playlist(spotify_auth, selected_tracks, mood,final_mood)
     playlist='https://open.spotify.com/playlist/'+playlist.split(':')[2]
     print(playlist)
     return render_template('playlist.html', playlist=playlist,mood=final_mood)

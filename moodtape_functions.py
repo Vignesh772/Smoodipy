@@ -98,7 +98,8 @@ def select_tracks(sp, top_tracks_uri, mood):
 
 # Step 5. From these tracks, create a playlist for user
 
-def create_playlist(sp, selected_tracks_uri, mood):
+def create_playlist(sp, selected_tracks_uri, mood,emotion):
+
 
 	print("...creating playlist")
 	user_all_data = sp.current_user()
@@ -106,12 +107,12 @@ def create_playlist(sp, selected_tracks_uri, mood):
 	p=sp.user_playlists(user_id)
 	#print(p['items'])
 	for i in p['items']:
-		if(i['name']=="MOOD " + str(mood)):
+		if(i['name']=="MOOD " + str(emotion)):
 			sp.current_user_unfollow_playlist(i['id'])
 			break
 
 
-	playlist_all_data = sp.user_playlist_create(user_id, "MOOD " + str(mood))
+	playlist_all_data = sp.user_playlist_create(user_id, "MOOD " + str(emotion))
 	playlist_id = playlist_all_data["id"]
 	playlist_uri = playlist_all_data["uri"]
 
